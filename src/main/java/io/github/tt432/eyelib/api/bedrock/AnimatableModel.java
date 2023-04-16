@@ -25,11 +25,11 @@ public interface AnimatableModel<E extends Animatable> {
 
     AnimationProcessor<E> getAnimationProcessor();
 
-    default SingleAnimation getAnimation(String name, Animatable animatable, SingleAnimation sourceAnimation) {
+    default SingleAnimation getAnimation(String name, E animatable, SingleAnimation sourceAnimation) {
         if (sourceAnimation != null)
             return sourceAnimation;
 
-        ResourceLocation animationFileLocation = getAnimationFileLocation((E) animatable);
+        ResourceLocation animationFileLocation = getAnimationFileLocation(animatable);
         AnimationFile animationFile = BedrockResourceManager.getInstance().getAnimations().get(animationFileLocation);
 
         if (animationFile == null) {
