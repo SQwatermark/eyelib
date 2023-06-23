@@ -277,7 +277,7 @@ public class ExtendedRendererEntity extends PathfinderMob implements Animatable 
     @Override
     protected InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
         ItemStack item = pPlayer.getItemInHand(pHand);
-        if (item != null && !item.isEmpty() && !this.level.isClientSide) {
+        if (item != null && !item.isEmpty() && !this.level().isClientSide) {
             if (item.getItem() instanceof ArmorItem ai) {
                 this.setItemSlot(ai.getEquipmentSlot(), item);
             } else if (item.getItem().getEquipmentSlot(item) != null) {

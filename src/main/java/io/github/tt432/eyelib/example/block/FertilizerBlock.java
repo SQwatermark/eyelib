@@ -14,14 +14,13 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.Material;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class FertilizerBlock extends DirectionalBlock implements EntityBlock {
     public FertilizerBlock() {
-        super(Properties.of(Material.STONE).noOcclusion());
+        super(Properties.of().noOcclusion());
     }
 
     @Nullable
