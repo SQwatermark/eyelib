@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"facing=north": {
+			"y": 0,
+			"model": "eyelib:block/gaming_chair"
+		},
+		"facing=south": {
+			"y": 180,
+			"model": "eyelib:block/gaming_chair"
+		},
+		"facing=east": {
+			"y": 180,
+			"model": "eyelib:block/gaming_chair"
+		},
+		"facing=west": {
+			"y": 180,
+			"model": "eyelib:block/gaming_chair"
+		}
+	}
+}

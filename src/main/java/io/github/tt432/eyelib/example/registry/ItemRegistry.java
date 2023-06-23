@@ -19,6 +19,9 @@ public class ItemRegistry {
     public static final RegistryObject<BlockItem> FERTILIZER_ITEM = ITEMS.register("fertilizer",
             () -> new BlockItem(BlockRegistry.FERTILIZER_BLOCK.get(),
                     new Item.Properties()));
+    public static final RegistryObject<BlockItem> GAMING_CHAIR = ITEMS.register("gaming_chair",
+            () -> new BlockItem(BlockRegistry.GAMING_CHAIR.get(),
+                    new Item.Properties()));
 
     public static final RegistryObject<JackInTheBoxItem> JACK_IN_THE_BOX = ITEMS.register("jackintheboxitem",
             () -> new JackInTheBoxItem(new Item.Properties()));
