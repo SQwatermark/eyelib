@@ -102,7 +102,7 @@ public class BedrockResourceManager {
 
             // Build the quads and cubes from the raw tree into a built and ready to be
             // rendered GeoModel
-            return GeoBuilder.getGeoBuilder(location.getNamespace()).constructGeoModel(rawGeometryTree);
+            return GeoBuilder.getGeoBuilder().constructGeoModel(rawGeometryTree);
         } catch (Exception e) {
             log.error(String.format("Error parsing %S", location), e);
             throw (new RuntimeException(e));
@@ -123,7 +123,7 @@ public class BedrockResourceManager {
     }
 
     public static String getResourceAsString(ResourceLocation location, ResourceManager manager) {
-        try (InputStream inputStream = manager.getResource(location).getInputStream()) {
+        try (InputStream inputStream = manager.getResource(location).get().open()) {
             return IOUtils.toString(inputStream, Charset.defaultCharset());
         } catch (Exception e) {
             String message = "Couldn't load " + location;
@@ -136,7 +136,7 @@ public class BedrockResourceManager {
                                           String type, Function<ResourceLocation, T> loader,
                                           BiConsumer<ResourceLocation, T> map) {
         Collection<ResourceLocation> resources = resourceManager
-                .listResources(type, fileName -> fileName.endsWith(".json"));
+                .listResources(type, fileName -> fileName.getPath().endsWith(".json")).keySet();
 
         for (ResourceLocation resource : resources) {
             map.accept(resource, loader.apply(resource));
