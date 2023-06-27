@@ -2,6 +2,7 @@ package io.github.tt432.eyelib.example.registry;
 
 import io.github.tt432.eyelib.Eyelib;
 import io.github.tt432.eyelib.example.block.FertilizerBlock;
+import io.github.tt432.eyelib.example.block.GamingChairBlock;
 import io.github.tt432.eyelib.example.block.HabitatBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,4 +17,6 @@ public class BlockRegistry {
             HabitatBlock::new);
     public static final RegistryObject<FertilizerBlock> FERTILIZER_BLOCK = BLOCKS.register("fertilizerblock",
             FertilizerBlock::new);
+    public static final RegistryObject<GamingChairBlock> GAMING_CHAIR = BLOCKS.register("gaming_chair",
+            GamingChairBlock::new);
 }

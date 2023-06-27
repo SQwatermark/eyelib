@@ -15,7 +15,7 @@ import java.util.Comparator;
 public class MixinMethods {
     public static <T> Iterable<T> sortedEntityList(Int2ObjectMap<T> byId) {
         return byId.values().stream().sorted(Comparator.comparingDouble(access -> {
-            if (access instanceof Entity e && e.level.isClientSide) {
+            if (access instanceof Entity e && e.level().isClientSide) {
                 Entity cameraEntity = Minecraft.getInstance().cameraEntity;
 
                 if (cameraEntity != null)

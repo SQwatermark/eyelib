@@ -6,7 +6,7 @@ import io.github.tt432.eyelib.example.entity.GeoExampleEntity;
 import net.minecraft.resources.ResourceLocation;
 
 public class ExampleEntityModel extends AnimatedTickingGeoModel<GeoExampleEntity> {
-    public static final String NAME = "nuoaier";
+    public static final String NAME = "ruibeika";
 
     public static final ResourceLocation BAT_MODEL =
             new ResourceLocation(Eyelib.MOD_ID, "geo/models/" + NAME + ".geo.json");

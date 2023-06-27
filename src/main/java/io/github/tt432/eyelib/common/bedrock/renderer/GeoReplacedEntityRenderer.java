@@ -317,9 +317,9 @@ public abstract class GeoReplacedEntityRenderer<T extends Animatable> extends En
         Vec3 leashHolderEyePosition = leashHolder.getEyePosition(partialTick);
         BlockPos holderEyePos = new BlockPos((int) leashHolderEyePosition.x, (int) leashHolderEyePosition.y, (int) leashHolderEyePosition.z);
         int entityBlockLight = getBlockLightLevel(entity, entityEyePos);
-        int holderBlockLight = leashHolder.isOnFire() ? 15 : leashHolder.level.getBrightness(LightLayer.BLOCK, holderEyePos);
-        int entitySkyLight = entity.level.getBrightness(LightLayer.SKY, entityEyePos);
-        int holderSkyLight = entity.level.getBrightness(LightLayer.SKY, holderEyePos);
+        int holderBlockLight = leashHolder.isOnFire() ? 15 : leashHolder.level().getBrightness(LightLayer.BLOCK, holderEyePos);
+        int entitySkyLight = entity.level().getBrightness(LightLayer.SKY, entityEyePos);
+        int holderSkyLight = entity.level().getBrightness(LightLayer.SKY, holderEyePos);
 
         poseStack.pushPose();
         poseStack.translate(xAngleOffset, leashOffset.y, zAngleOffset);

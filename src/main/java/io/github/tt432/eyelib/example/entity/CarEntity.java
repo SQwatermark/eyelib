@@ -103,7 +103,7 @@ public class CarEntity extends Animal implements Animatable {
     }
 
     @Override
-    public void positionRider(Entity passenger) {
+    protected void positionRider(Entity passenger, MoveFunction pCallback) {
         super.positionRider(passenger);
         if (passenger instanceof LivingEntity mob) {
             passenger.setPos(this.getX(), this.getY() - 0.1f, this.getZ());

@@ -37,7 +37,7 @@ public class MolangVariableControl {
     public static void entity(MolangVariableScope scope) {
         scope.setVariable("query.distance_from_camera", s -> entityDouble(s, entity -> Minecraft.getInstance()
                 .gameRenderer.getMainCamera().getPosition().distanceTo(entity.position())));
-        scope.setVariable("query.is_on_ground", s -> entityBool(s, Entity::isOnGround));
+        scope.setVariable("query.is_on_ground", s -> entityBool(s, Entity::onGround));
         scope.setVariable("query.is_in_water", s -> entityBool(s, Entity::isInWater));
         scope.setVariable("query.is_in_water_or_rain", s -> entityBool(s, Entity::isInWaterRainOrBubble));
 
@@ -66,7 +66,7 @@ public class MolangVariableControl {
             return Mth.sqrt((float) ((velocity.x * velocity.x) + (velocity.z * velocity.z))) * 20;
         }));
         scope.setVariable("query.vertical_speed", s -> livingDouble(s, living ->
-                living.isOnGround() ? 0 : living.getDeltaMovement().y * 20));
+                living.onGround() ? 0 : living.getDeltaMovement().y * 20));
 
         scope.setVariable("query.head_yaw", s -> livingDouble(s, e ->
                 Mth.lerp((float) s.getValue("query.partial_tick"), e.yHeadRotO, e.yHeadRot)));

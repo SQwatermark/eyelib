@@ -74,7 +74,7 @@ public class FistItem extends Item implements Animatable, Syncable, SoundPlayer 
 
     @Override
     public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity player) {
-        Level level = player.level;
+        Level level = player.level();
 
         if (!level.isClientSide) {
             // Gets the item that the player is holding, should be a JackInTheBoxItem

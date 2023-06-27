@@ -13,7 +13,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -60,8 +60,9 @@ public class BedrockParticleManager {
     }
 
     @SubscribeEvent
-    @SuppressWarnings("removal")
-    public static void onEvent(RenderLevelLastEvent event) {
+    public static void onEvent(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL) return;
+
         Minecraft mc = Minecraft.getInstance();
         GameRenderer gameRenderer = mc.gameRenderer;
         render(event.getPoseStack(), gameRenderer.lightTexture(), gameRenderer.getMainCamera(), event.getPartialTick());
