@@ -13,6 +13,14 @@ public class GeoCube {
     public Vector3f size = new Vector3f();
     public double inflate;
 
+    public GeoCube(GeoQuad[] quads, Vector3f pivot, Vector3f rotation, Vector3f size, double inflate) {
+        this.quads = quads;
+        this.pivot = pivot;
+        this.rotation = rotation;
+        this.size = size;
+        this.inflate = inflate;
+    }
+
     private GeoCube(double[] size) {
         if (size.length >= 3) {
             this.size.set((float) size[0], (float) size[1], (float) size[2]);

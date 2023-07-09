@@ -11,6 +11,14 @@ public class GeoQuad {
     public final Vector3f normal;
     public Direction direction;
 
+    public GeoQuad(float texWidth, float texHeight, GeoVertex[] vertices, Vector3f normal, Direction direction) {
+        this.texWidth = texWidth;
+        this.texHeight = texHeight;
+        this.vertices = vertices;
+        this.normal = normal;
+        this.direction = direction;
+    }
+
     public GeoQuad(GeoVertex[] verticesIn, float u1, float v1, float uSize, float vSize, float texWidth,
                    float texHeight, Boolean mirrorIn, Direction directionIn) {
         this.texWidth = texWidth;
