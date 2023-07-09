@@ -69,6 +69,6 @@ public class AnimationTextureLoader extends TextureAtlasHolder {
     }
 
     public boolean isMissing(TextureAtlasSprite sprite) {
-        return sprite.atlasLocation().equals(MissingTextureAtlasSprite.getLocation());
+        return sprite.contents().name().equals(MissingTextureAtlasSprite.getLocation());
     }
 }
