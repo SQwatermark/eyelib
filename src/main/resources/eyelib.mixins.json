@@ -7,6 +7,7 @@
   "mixins": [
   ],
   "client": [
+    "LivingEntityRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

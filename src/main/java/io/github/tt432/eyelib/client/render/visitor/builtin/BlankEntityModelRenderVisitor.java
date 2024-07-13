@@ -31,11 +31,10 @@ public class BlankEntityModelRenderVisitor extends ModelRenderVisitor {
         last.normal().transform(normal, tNormal);
 
         VertexConsumer consumer = renderParams.consumer();
-        int light = renderParams.light();
         consumer.vertex(tPosition.x, tPosition.y, tPosition.z,
                 1, 1, 1, 1,
                 uv.x, uv.y,
-                OverlayTexture.NO_OVERLAY, light,
+                renderParams.overlay(), renderParams.light(),
                 tNormal.x, tNormal.y, tNormal.z);
     }
 }
