@@ -261,7 +261,7 @@ public final class MolangQuery {
     }
 
     public static float yaw(MolangScope scope) {
-        return entityFloat(scope, e -> e.getViewYRot(partial_tick(scope)));
+        return entityFloat(scope, e -> e.getViewYRot(0));
     }
 
     public static float yaw_speed(MolangScope scope) {
@@ -269,7 +269,7 @@ public final class MolangQuery {
     }
 
     public static float pitch(MolangScope scope) {
-        return entityFloat(scope, e -> e.getViewXRot(partial_tick(scope)));
+        return entityFloat(scope, e -> e.getViewXRot(0));
     }
 
     public static float eye_target_y_rotation(MolangScope scope) {
@@ -431,17 +431,51 @@ public final class MolangQuery {
 
     public static float ground_speed(MolangScope scope) {
         return livingFloat(scope, livingEntity -> {
-            Vec3 velocity = livingEntity.getDeltaMovement();
-            return Mth.sqrt((float) ((velocity.x * velocity.x) + (velocity.z * velocity.z))) * 20;
+            float vx = (float) (livingEntity.position().x - livingEntity.xo);
+            float vz = (float) (livingEntity.position().z - livingEntity.zo);
+            return Mth.sqrt((vx * vx) + (vz * vz)) * 20;
         });
     }
 
+    public static float is_damage(MolangScope scope) {
+        return livingBool(scope, living -> living.hurtTime > 0);
+    }
+
     public static float vertical_speed(MolangScope scope) {
-        return livingFloat(scope, living -> living.onGround() ? 0 : (float) (living.getDeltaMovement().y * 20));
+        return livingFloat(scope, living -> (float) (living.position().y - living.yo) * 20);
     }
 
     public static float head_yaw(MolangScope scope) {
-        return livingFloat(scope, e -> Mth.lerp(partial_tick(scope), e.yHeadRotO, e.yHeadRot));
+        return livingFloat(scope, livingEntity -> {
+            var partialTicks = partial_tick(scope);
+            var lerpBodyRot = Mth.rotLerp(partialTicks, livingEntity.yBodyRotO, livingEntity.yBodyRot);
+            var lerpHeadRot = Mth.rotLerp(partialTicks, livingEntity.yHeadRotO, livingEntity.yHeadRot);
+            float netHeadYaw = lerpHeadRot - lerpBodyRot;
+            boolean shouldSit = livingEntity.isPassenger() && (livingEntity.getVehicle() != null && livingEntity.getVehicle().shouldRiderSit());
+            if (shouldSit && livingEntity.getVehicle() instanceof LivingEntity vehicle) {
+                lerpBodyRot = Mth.rotLerp(partialTicks, vehicle.yBodyRotO, vehicle.yBodyRot);
+                netHeadYaw = lerpHeadRot - lerpBodyRot;
+                float clampedHeadYaw = Mth.clamp(Mth.wrapDegrees(netHeadYaw), -85, 85);
+                lerpBodyRot = lerpHeadRot - clampedHeadYaw;
+                if (clampedHeadYaw * clampedHeadYaw > 2500f) {
+                    lerpBodyRot += clampedHeadYaw * 0.2f;
+                }
+                netHeadYaw = lerpHeadRot - lerpBodyRot;
+            }
+            return Mth.clamp(Mth.wrapDegrees(netHeadYaw), -85, 85);
+        });
+    }
+
+    public static float head_y_rotation(MolangScope scope) {
+        return head_yaw(scope);
+    }
+
+    public static float head_pitch(MolangScope scope) {
+        return livingFloat(scope, e -> Mth.lerp(partial_tick(scope), e.xRotO, e.getXRot()));
+    }
+
+    public static float head_x_rotation(MolangScope scope) {
+        return head_pitch(scope);
     }
 
     public static float head_yaw_speed(MolangScope scope) {
@@ -449,31 +483,16 @@ public final class MolangQuery {
     }
 
     public static float body_yaw(MolangScope scope) {
-        return livingFloat(scope, e -> Mth.lerp(partial_tick(scope), e.yBodyRotO, e.yBodyRot));
+        return scope.getOwner().ownerAs(LivingEntity.class)
+                .map(living -> Mth.wrapDegrees(Mth.rotLerp(partial_tick(scope),
+                        living.yBodyRotO, living.yBodyRot)))
+                .orElse(scope.getOwner().ownerAs(Entity.class)
+                        .map(e -> Mth.wrapDegrees(e.getYRot()))
+                        .orElse(0F));
     }
 
     public static float body_yaw_speed(MolangScope scope) {
         return livingFloat(scope, e -> (e.yBodyRot - e.yBodyRotO) / 20);
-    }
-
-    public static float head_yaw_offset(MolangScope scope) {
-        return livingFloat(scope, living -> {
-            float hRot = head_yaw(scope);
-            float bRot = body_yaw(scope);
-            float netHeadYaw = hRot - bRot;
-
-            if (sitting(scope) == TRUE && living.getVehicle() instanceof LivingEntity) {
-                float clampedHeadYaw = Mth.clamp(Mth.wrapDegrees(netHeadYaw), -85, 85);
-                bRot = hRot - clampedHeadYaw;
-
-                if (clampedHeadYaw > 500f)
-                    bRot += clampedHeadYaw * 0.2f;
-
-                netHeadYaw = hRot - bRot;
-            }
-
-            return Mth.wrapDegrees(-netHeadYaw);
-        });
     }
 
     public static float head_pitch_offset(MolangScope scope) {
