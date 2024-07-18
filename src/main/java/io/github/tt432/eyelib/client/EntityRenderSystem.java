@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -83,9 +84,11 @@ public class EntityRenderSystem {
             RenderParams renderParams = new RenderParams(entity,
                     new PoseStack.Pose(new Matrix4f(last.pose()), new Matrix3f(last.normal())),
                     poseStack, renderType, buffer, event.getPackedLight(),
-                    LivingEntityRenderer.getOverlayCoords(entity,
+                    modelComponent.isNeedOverlay()
+                            ? LivingEntityRenderer.getOverlayCoords(entity,
                             ((LivingEntityRendererAccessor) (event.getRenderer()))
-                                    .callGetWhiteOverlayProgress(entity, event.getPartialTick())));
+                                    .callGetWhiteOverlayProgress(entity, event.getPartialTick()))
+                            : OverlayTexture.NO_OVERLAY);
 
             BrModelRenderer.render(renderParams, model, modelComponent.getBoneInfos(),
                     BrModelTextures.getTwoSideInfo(model, modelComponent.isSolid(), texture), modelComponent.getVisitors());

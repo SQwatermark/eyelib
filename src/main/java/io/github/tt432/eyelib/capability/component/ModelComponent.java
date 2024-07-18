@@ -11,6 +11,7 @@ import io.github.tt432.eyelib.client.render.visitor.ModelRenderVisitorRegistry;
 import io.github.tt432.eyelib.client.render.visitor.builtin.ModelRenderVisitor;
 import io.github.tt432.eyelib.util.client.RenderTypeSerializations;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -37,6 +38,9 @@ public class ModelComponent {
     }
 
     SerializableInfo serializableInfo;
+    @Getter
+    @Setter
+    boolean needOverlay;
 
     public boolean serializable() {
         return serializableInfo != null
